@@ -1,0 +1,29 @@
+{
+  "name": "Veri-Attend",
+  "short_name": "VeriAttend",
+  "description": "Smart digital attendance and campus management",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#2563EB",
+  "background_color": "#EFF6FF",
+  "display": "standalone",
+  "start_url": "/"
+}

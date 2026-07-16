@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum FeatureStatus {
+  PLANNED
+  IN_PROGRESS
+  TESTING
+  COMPLETED
+}
+
+enum FeaturePriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum BeneficiaryType {
+  STUDENT
+  LECTURER
+  ADMIN
+  SUPER_ADMIN
+  EVERYONE
+}
+
+enum FeatureCategory {
+  AI
+  MOBILE
+  ATTENDANCE
+  ANALYTICS
+  INTEGRATIONS
+  ADMIN
+  NOTIFICATIONS
+  OTHER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  MERGED
+}
+
+model Feature {
+  id               String          @id @default(cuid())
+  title            String
+  description      String
+  status           FeatureStatus   @default(PLANNED)
+  category         FeatureCategory @default(OTHER)
+  priority         FeaturePriority @default(MEDIUM)
+  beneficiary      BeneficiaryType @default(EVERYONE)
+  estimatedRelease String?
+  phase            String?
+  estimatedDays    Int?
+  assignedDev      String?
+  version          String?
+  sortOrder        Int             @default(0)
+  published        Boolean         @default(true)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  votes       FeatureVote[]
+  comments    FeatureComment[]
+  subscribers FeatureSubscriber[]
+}
+
+model FeatureVote {
+  id        String   @id @default(cuid())
+  featureId String
+  voterId   String
+  createdAt DateTime @default(now())
+
+  feature Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+
+  @@unique([featureId, voterId])
+}
+
+model FeatureComment {
+  id         String   @id @default(cuid())
+  featureId  String
+  parentId   String?
+  authorName String
+  content    String
+  likes      Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  feature Feature            @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  parent  FeatureComment?    @relation("CommentReplies", fields: [parentId], references: [id])
+  replies FeatureComment[]   @relation("CommentReplies")
+  likes_  FeatureCommentLike[] @relation("CommentLikes")
+}
+
+model FeatureCommentLike {
+  id        String   @id @default(cuid())
+  commentId String
+  voterId   String
+  createdAt DateTime @default(now())
+
+  comment FeatureComment @relation("CommentLikes", fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, voterId])
+}
+
+model FeatureSubscriber {
+  id        String   @id @default(cuid())
+  featureId String
+  email     String
+  createdAt DateTime @default(now())
+
+  feature Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+
+  @@unique([featureId, email])
+}
+
+model FeatureRequest {
+  id             String          @id @default(cuid())
+  title          String
+  description    String
+  category       FeatureCategory @default(OTHER)
+  beneficiary    BeneficiaryType @default(EVERYONE)
+  priority       FeaturePriority @default(MEDIUM)
+  submitterName  String?
+  submitterEmail String?
+  status         RequestStatus   @default(PENDING)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model RoadmapStat {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Int
+  label String
+}
