@@ -4,6 +4,12 @@ Official public-facing marketing website for **VeriAttend** — an AI-powered at
 
 > Attendance. Verified. Smarter. Simpler.
 
+![VeriAttend marketing website preview](public/images/marketing-site-preview.png)
+
+![VeriAttend features section — role-based portals](public/images/features-section-preview.png)
+
+![VeriAttend platform showcase — dashboards and analytics](public/images/platform-showcase-preview.png)
+
 ## Tech Stack
 
 - **Next.js 16** (App Router)
