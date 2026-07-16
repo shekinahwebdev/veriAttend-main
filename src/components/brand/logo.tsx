@@ -35,11 +35,11 @@ export function Logo({
       <div className={cn("flex items-center gap-2.5", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/logo-mark.svg"
+          src="/favicon.svg"
           alt=""
           width={sizes[size].mark}
           height={sizes[size].mark}
-          className="shrink-0 transition-transform group-hover:scale-105"
+          className="shrink-0 rounded-lg transition-transform group-hover:scale-105"
           aria-hidden
         />
         <span className="text-xl font-bold tracking-tight">VeriAttend</span>
