@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { hasDatabaseUrl } from "@/lib/db-env";
 import type { FeatureItem, RoadmapStats } from "./types";
 import { FALLBACK_FEATURES, FALLBACK_STATS } from "./fallback-data";
+import { ensureRoadmapSeeded } from "./seed-if-empty";
 
 function mapFeature(
   feature: {
@@ -18,8 +19,8 @@ function mapFeature(
     assignedDev: string | null;
     version: string | null;
     createdAt: Date;
-    _count: { votes: number; comments: number };
   },
+  counts: { votes: number; comments: number },
   hasVoted = false
 ): FeatureItem {
   return {
@@ -35,8 +36,8 @@ function mapFeature(
     estimatedDays: feature.estimatedDays,
     assignedDev: feature.assignedDev,
     version: feature.version,
-    voteCount: feature._count.votes,
-    commentCount: feature._count.comments,
+    voteCount: counts.votes,
+    commentCount: counts.comments,
     hasVoted,
     createdAt: feature.createdAt.toISOString(),
   };
@@ -46,27 +47,55 @@ export async function getFeatures(voterId?: string): Promise<FeatureItem[]> {
   if (!hasDatabaseUrl()) return FALLBACK_FEATURES;
 
   try {
+    await ensureRoadmapSeeded();
+
     const features = await prisma.feature.findMany({
       where: { published: true },
-      include: {
-        _count: { select: { votes: true, comments: true } },
-      },
       orderBy: [{ sortOrder: "asc" }],
     });
 
     if (features.length === 0) return [];
 
-    let votedIds = new Set<string>();
-    if (voterId) {
-      const votes = await prisma.featureVote.findMany({
-        where: { voterId, featureId: { in: features.map((f) => f.id) } },
-        select: { featureId: true },
-      });
-      votedIds = new Set(votes.map((v) => v.featureId));
-    }
+    const ids = features.map((f) => f.id);
+
+    const [voteGroups, commentGroups, voterVotes] = await Promise.all([
+      prisma.featureVote.groupBy({
+        by: ["featureId"],
+        where: { featureId: { in: ids } },
+        _count: { _all: true },
+      }),
+      prisma.featureComment.groupBy({
+        by: ["featureId"],
+        where: { featureId: { in: ids } },
+        _count: { _all: true },
+      }),
+      voterId
+        ? prisma.featureVote.findMany({
+            where: { voterId, featureId: { in: ids } },
+            select: { featureId: true },
+          })
+        : Promise.resolve([]),
+    ]);
+
+    const voteMap = Object.fromEntries(
+      voteGroups.map((v) => [v.featureId, v._count._all])
+    );
+    const commentMap = Object.fromEntries(
+      commentGroups.map((c) => [c.featureId, c._count._all])
+    );
+    const votedIds = new Set(voterVotes.map((v) => v.featureId));
 
     return features
-      .map((f) => mapFeature(f, votedIds.has(f.id)))
+      .map((f) =>
+        mapFeature(
+          f,
+          {
+            votes: voteMap[f.id] ?? 0,
+            comments: commentMap[f.id] ?? 0,
+          },
+          votedIds.has(f.id)
+        )
+      )
       .sort((a, b) => b.voteCount - a.voteCount);
   } catch (error) {
     console.error("Failed to load features from database:", error);
@@ -78,6 +107,7 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
   if (!hasDatabaseUrl()) return FALLBACK_STATS;
 
   try {
+    await ensureRoadmapSeeded();
 
     const [
       completed,
