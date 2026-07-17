@@ -8,6 +8,8 @@ import {
 import { getFeatures, getRoadmapStats } from "@/lib/roadmap/service";
 import type { FeatureStatus, FeatureCategory, FeaturePriority, BeneficiaryType } from "@/lib/roadmap/types";
 
+export const runtime = "nodejs";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status") as FeatureStatus | null;

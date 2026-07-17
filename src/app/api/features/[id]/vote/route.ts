@@ -9,6 +9,8 @@ import { toggleVote } from "@/lib/roadmap/service";
 import { hasDatabaseUrl } from "@/lib/db-env";
 import { prisma } from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

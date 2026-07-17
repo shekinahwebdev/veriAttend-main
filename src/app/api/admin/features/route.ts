@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
 const ADMIN_KEY = process.env.ROADMAP_ADMIN_KEY;
 
 const updateSchema = z.object({

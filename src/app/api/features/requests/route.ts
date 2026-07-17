@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { hasDatabaseUrl } from "@/lib/db-env";
 import { prisma } from "@/lib/prisma";
+
+export const runtime = "nodejs";
 
 const requestSchema = z.object({
   title: z.string().min(3).max(120),
@@ -28,6 +31,13 @@ const requestSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  if (!hasDatabaseUrl()) {
+    return NextResponse.json(
+      { error: "Database not configured" },
+      { status: 503 }
+    );
+  }
+
   try {
     const body = await request.json();
     const data = requestSchema.parse(body);
@@ -49,6 +59,7 @@ export async function POST(request: Request) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues[0]?.message }, { status: 400 });
     }
+    console.error("Feature request submission failed:", error);
     return NextResponse.json(
       { error: "Unable to submit feature request" },
       { status: 500 }

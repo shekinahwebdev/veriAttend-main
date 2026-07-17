@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getFeatureComments } from "@/lib/roadmap/service";
 import { getVoterId } from "@/lib/roadmap/voter";
 
+export const runtime = "nodejs";
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }

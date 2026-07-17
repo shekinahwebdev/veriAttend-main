@@ -6,6 +6,8 @@ import {
   type PlatformStats,
 } from "@/lib/platform-stats";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   try {
     if (!hasDatabaseUrl()) {

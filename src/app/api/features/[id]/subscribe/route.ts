@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
 const schema = z.object({
   email: z.string().email(),
 });
