@@ -11,9 +11,9 @@ import { DevelopmentJourneySection } from "@/components/sections/development-jou
 import { WhatsNextSection } from "@/components/sections/whats-next";
 import { ChangelogSection } from "@/components/sections/changelog";
 import { CommunityFeedbackSection } from "@/components/sections/community-feedback";
+import { JoinCommunitySection } from "@/components/sections/join-community";
 import { BehindVeriAttendSection } from "@/components/sections/behind-veriattend";
 import { TechStackSection } from "@/components/sections/tech-stack";
-import { TestimonialsSection } from "@/components/sections/testimonials";
 import { FAQSection } from "@/components/sections/faq";
 import { ContactSection } from "@/components/sections/contact";
 
@@ -33,6 +33,7 @@ export default function Home() {
       <WhatsNextSection />
       <ChangelogSection />
       <CommunityFeedbackSection />
+      <JoinCommunitySection />
       <BehindVeriAttendSection />
       <TechStackSection />
     {/*  <TestimonialsSection /> */}

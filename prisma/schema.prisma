@@ -48,6 +48,15 @@ enum RequestStatus {
   MERGED
 }
 
+enum CommunityRole {
+  DEVELOPER
+  DESIGNER
+  STUDENT
+  LECTURER
+  TESTER
+  OTHER
+}
+
 model Feature {
   id               String          @id @default(cuid())
   title            String
@@ -138,4 +147,15 @@ model RoadmapStat {
   key   String @unique
   value Int
   label String
+}
+
+model CommunityMember {
+  id          String        @id @default(cuid())
+  fullName    String
+  email       String        @unique
+  role        CommunityRole
+  githubUrl   String?
+  linkedInUrl String?
+  message     String?
+  createdAt   DateTime      @default(now())
 }
