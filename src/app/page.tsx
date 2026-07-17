@@ -35,7 +35,7 @@ export default function Home() {
       <CommunityFeedbackSection />
       <BehindVeriAttendSection />
       <TechStackSection />
-      <TestimonialsSection />
+    {/*  <TestimonialsSection /> */}
       <FAQSection />
       <ContactSection />
     </>
