@@ -224,7 +224,7 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link href="#contact">Login to Platform</Link>
+              <Link href="#contact">Get In Touch</Link>
             </Button>
           </motion.div>
         </div>

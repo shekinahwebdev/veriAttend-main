@@ -66,7 +66,7 @@ export function Navbar() {
         <div className="hidden items-center gap-2 lg:flex">
           <ThemeToggle />
           <Button variant="outline" size="sm" asChild>
-            <Link href="/#contact">Login</Link>
+            <Link href="/#contact">Get In Touch</Link>
           </Button>
           <Button size="sm" asChild>
             <Link href="/#contact">Request Demo</Link>
@@ -106,7 +106,7 @@ export function Navbar() {
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <Button variant="outline" asChild>
                 <Link href="/#contact" onClick={() => setMobileOpen(false)}>
-                  Login
+                  Get In Touch
                 </Link>
               </Button>
               <Button asChild>
