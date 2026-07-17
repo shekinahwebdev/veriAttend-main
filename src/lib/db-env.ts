@@ -23,6 +23,16 @@ export function hasDatabaseUrl() {
   return Boolean(process.env.DATABASE_URL);
 }
 
+/** Prisma queries are most reliable over Neon's direct connection on serverless. */
+export function getPrismaDatabaseUrl() {
+  resolveDatabaseEnv();
+  const url = process.env.DIRECT_URL || process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error("DATABASE_URL is not configured");
+  }
+  return url;
+}
+
 /** Prisma + Neon pooler requires pgbouncer mode; channel_binding breaks some runtimes. */
 function normalizePooledUrl(url: string) {
   let normalized = stripChannelBinding(url);
@@ -36,7 +46,14 @@ function normalizePooledUrl(url: string) {
 }
 
 function normalizeDirectUrl(url: string) {
-  return stripChannelBinding(url);
+  let normalized = stripChannelBinding(url);
+
+  if (!normalized.includes("connection_limit=")) {
+    normalized += normalized.includes("?") ? "&" : "?";
+    normalized += "connection_limit=1";
+  }
+
+  return normalized;
 }
 
 function stripChannelBinding(url: string) {

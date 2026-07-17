@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     "Explore the VeriAttend public roadmap. Vote on features, suggest ideas, and track development progress.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Roadmap() {
   const voterId = await getVoterId();
   const [features, stats] = await Promise.all([
