@@ -7,13 +7,28 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+function createPrismaClient() {
+  return new PrismaClient({
     datasources: {
       db: { url: getPrismaDatabaseUrl() },
     },
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+function getPrismaClient(): PrismaClient {
+  const cached = globalForPrisma.prisma;
+
+  // Recreate stale clients after schema changes during local development.
+  if (!cached || !("communityMember" in cached)) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+
+  return globalForPrisma.prisma as PrismaClient;
+}
+
+export const prisma = getPrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
