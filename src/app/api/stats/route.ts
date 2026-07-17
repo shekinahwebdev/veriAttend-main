@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { hasDatabaseUrl } from "@/lib/db-env";
 import {
   FALLBACK_PLATFORM_STATS,
   type PlatformStats,
@@ -7,7 +8,7 @@ import {
 
 export async function GET() {
   try {
-    if (!process.env.DATABASE_URL) {
+    if (!hasDatabaseUrl()) {
       return NextResponse.json(FALLBACK_PLATFORM_STATS);
     }
 

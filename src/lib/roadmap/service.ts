@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { hasDatabaseUrl } from "@/lib/db-env";
 import type { FeatureItem, RoadmapStats } from "./types";
 import { FALLBACK_FEATURES, FALLBACK_STATS } from "./fallback-data";
 
@@ -42,9 +43,9 @@ function mapFeature(
 }
 
 export async function getFeatures(voterId?: string): Promise<FeatureItem[]> {
-  try {
-    if (!process.env.DATABASE_URL) return FALLBACK_FEATURES;
+  if (!hasDatabaseUrl()) return FALLBACK_FEATURES;
 
+  try {
     const features = await prisma.feature.findMany({
       where: { published: true },
       include: {
@@ -53,7 +54,7 @@ export async function getFeatures(voterId?: string): Promise<FeatureItem[]> {
       orderBy: [{ sortOrder: "asc" }],
     });
 
-    if (features.length === 0) return FALLBACK_FEATURES;
+    if (features.length === 0) return [];
 
     let votedIds = new Set<string>();
     if (voterId) {
@@ -67,14 +68,16 @@ export async function getFeatures(voterId?: string): Promise<FeatureItem[]> {
     return features
       .map((f) => mapFeature(f, votedIds.has(f.id)))
       .sort((a, b) => b.voteCount - a.voteCount);
-  } catch {
-    return FALLBACK_FEATURES;
+  } catch (error) {
+    console.error("Failed to load features from database:", error);
+    return [];
   }
 }
 
 export async function getRoadmapStats(): Promise<RoadmapStats> {
+  if (!hasDatabaseUrl()) return FALLBACK_STATS;
+
   try {
-    if (!process.env.DATABASE_URL) return FALLBACK_STATS;
 
     const [
       completed,
@@ -106,7 +109,8 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
       studentsManaged: statMap.students ?? FALLBACK_STATS.studentsManaged,
       attendanceRecords: statMap.records ?? FALLBACK_STATS.attendanceRecords,
     };
-  } catch {
+  } catch (error) {
+    console.error("Failed to load roadmap stats from database:", error);
     return FALLBACK_STATS;
   }
 }

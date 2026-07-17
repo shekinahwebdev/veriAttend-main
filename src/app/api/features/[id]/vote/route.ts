@@ -6,6 +6,7 @@ import {
   VOTER_COOKIE_OPTIONS,
 } from "@/lib/roadmap/voter";
 import { toggleVote } from "@/lib/roadmap/service";
+import { hasDatabaseUrl } from "@/lib/db-env";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(
@@ -22,6 +23,13 @@ export async function POST(
     cookieStore.set(VOTER_COOKIE_OPTIONS.name, voterId, VOTER_COOKIE_OPTIONS);
   }
 
+  if (!hasDatabaseUrl()) {
+    return NextResponse.json(
+      { error: "Database not configured" },
+      { status: 503 }
+    );
+  }
+
   try {
     const feature = await prisma.feature.findUnique({ where: { id } });
     if (!feature) {
@@ -30,7 +38,8 @@ export async function POST(
 
     const result = await toggleVote(id, voterId);
     return NextResponse.json(result);
-  } catch {
+  } catch (error) {
+    console.error("Vote failed:", error);
     return NextResponse.json(
       { error: "Unable to process vote" },
       { status: 500 }
