@@ -16,12 +16,14 @@ const problems = [
   {
     icon: FileX,
     title: "Manual attendance sheets",
-    description: "Paper-based tracking is slow, error-prone, and easily manipulated.",
+    description:
+      "Paper-based tracking is slow, error-prone, and easily manipulated.",
   },
   {
     icon: UserX,
     title: "Attendance fraud",
-    description: "Students signing for absent peers undermines academic integrity.",
+    description:
+      "Students signing for absent peers undermines academic integrity.",
   },
   {
     icon: Users,
@@ -36,17 +38,20 @@ const problems = [
   {
     icon: BarChart2,
     title: "No real-time analytics",
-    description: "Institutions lack instant visibility into attendance patterns.",
+    description:
+      "Institutions lack instant visibility into attendance patterns.",
   },
   {
     icon: History,
     title: "No attendance history",
-    description: "Retrieving historical data requires manual searching through files.",
+    description:
+      "Retrieving historical data requires manual searching through files.",
   },
   {
     icon: Clock,
     title: "Time wasted in lectures",
-    description: "Valuable teaching time lost to roll calls and manual verification.",
+    description:
+      "Valuable teaching time lost to roll calls and manual verification.",
   },
 ];
 
@@ -81,7 +86,7 @@ export function ProblemSection() {
           ))}
         </div>
 
-        <FadeIn delay={0.3} className="mt-16">
+        {/* <FadeIn delay={0.3} className="mt-16">
           <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-8 text-center lg:p-12">
             <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/10 blur-2xl" />
             <Sparkles className="mx-auto mb-4 h-8 w-8 text-primary" />
@@ -90,7 +95,7 @@ export function ProblemSection() {
               attendance ecosystem.
             </p>
           </div>
-        </FadeIn>
+        </FadeIn> */}
       </div>
     </AnimatedSection>
   );

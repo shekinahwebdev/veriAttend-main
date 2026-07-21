@@ -35,7 +35,7 @@ export default function Home() {
       <CommunityFeedbackSection />
       <JoinCommunitySection />
       {/* <BehindVeriAttendSection /> */}
-      <TechStackSection />
+      {/* <TechStackSection /> */}
       {/*  <TestimonialsSection /> */}
       <FAQSection />
       <ContactSection />

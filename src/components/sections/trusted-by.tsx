@@ -25,9 +25,9 @@ const institutions = [
     logo: "/images/institutions/upsa.png",
   },
   {
-    name: "Ashesi",
-    fullName: "Ashesi University",
-    logo: "/images/institutions/ashesi.png",
+    name: "KNUST",
+    fullName: "Kwame Nkrumah University of Science and Technology",
+    logo: "/images/institutions/knust.png",
   },
   {
     name: "ATU",
@@ -67,7 +67,8 @@ export function TrustedBySection() {
           ))}
         </div>
         <p className="mt-8 text-center text-xs text-muted-foreground/70">
-          Designed to serve universities and higher education institutions across Ghana
+          Designed to serve universities and higher education institutions
+          across Ghana
         </p>
       </div>
     </AnimatedSection>
