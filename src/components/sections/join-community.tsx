@@ -30,12 +30,16 @@ import {
 import { GitHubIcon, LinkedInIcon } from "@/components/icons/social";
 
 const contributionAreas = [
-  { emoji: "💻", label: "Software Development", icon: Code2, color: "text-blue-500" },
-  { emoji: "🎨", label: "UI/UX Design", icon: Palette, color: "text-pink-500" },
-  { emoji: "🧪", label: "Beta Testing", icon: FlaskConical, color: "text-amber-500" },
-  { emoji: "💡", label: "Product Ideas", icon: Lightbulb, color: "text-yellow-500" },
-  { emoji: "📚", label: "Educational Research", icon: GraduationCap, color: "text-emerald-500" },
-  { emoji: "🌍", label: "Community Support", icon: Globe, color: "text-cyan-500" },
+  { label: "Software Development", icon: Code2, color: "text-blue-500" },
+  { label: "UI/UX Design", icon: Palette, color: "text-pink-500" },
+  { label: "Beta Testing", icon: FlaskConical, color: "text-amber-500" },
+  { label: "Product Ideas", icon: Lightbulb, color: "text-yellow-500" },
+  {
+    label: "Educational Research",
+    icon: GraduationCap,
+    color: "text-emerald-500",
+  },
+  { label: "Community Support", icon: Globe, color: "text-cyan-500" },
 ];
 
 const roles = [
@@ -87,7 +91,7 @@ export function JoinCommunitySection() {
       setSubmitted(true);
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Unable to join the community"
+        err instanceof Error ? err.message : "Unable to join the community",
       );
     } finally {
       setLoading(false);
@@ -95,7 +99,10 @@ export function JoinCommunitySection() {
   };
 
   return (
-    <AnimatedSection id="community-join" className="relative overflow-hidden py-24 lg:py-32">
+    <AnimatedSection
+      id="community-join"
+      className="relative overflow-hidden py-24 lg:py-32"
+    >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
       <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
@@ -110,15 +117,17 @@ export function JoinCommunitySection() {
             Help Shape the Future of Attendance Management
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            VeriAttend is an open project driven by the goal of making attendance
-            management smarter, more secure, and easier for educational institutions.
+            VeriAttend is an open project driven by the goal of making
+            attendance management smarter, more secure, and easier for
+            educational institutions.
           </p>
           <p className="mt-4 text-muted-foreground leading-relaxed">
-            Whether you&apos;re a developer, designer, student, educator, tester, or
-            simply someone with great ideas, we&apos;d love to hear from you. If
-            you&apos;re interested in contributing, collaborating, testing new
-            features, or following the project&apos;s progress, leave your details
-            below and we&apos;ll reach out when opportunities become available.
+            Whether you&apos;re a developer, designer, student, educator,
+            tester, or simply someone with great ideas, we&apos;d love to hear
+            from you. If you&apos;re interested in contributing, collaborating,
+            testing new features, or following the project&apos;s progress,
+            leave your details below and we&apos;ll reach out when opportunities
+            become available.
           </p>
         </FadeIn>
 
@@ -134,12 +143,11 @@ export function JoinCommunitySection() {
                 className="group rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl" aria-hidden>
-                    {area.emoji}
-                  </span>
                   <div>
                     <p className="font-medium">{area.label}</p>
-                    <area.icon className={`mt-1 h-4 w-4 ${area.color} opacity-70`} />
+                    <area.icon
+                      className={`mt-1 h-4 w-4 ${area.color} opacity-70`}
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -155,7 +163,9 @@ export function JoinCommunitySection() {
                   <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                     <HeartHandshake className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-semibold">Welcome to the Mission</h3>
+                  <h3 className="text-2xl font-semibold">
+                    Welcome to the Mission
+                  </h3>
                   <p className="mt-4 max-w-md text-muted-foreground leading-relaxed">
                     {successMessage}
                   </p>
@@ -212,7 +222,9 @@ export function JoinCommunitySection() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="community-github">GitHub Profile (optional)</Label>
+                      <Label htmlFor="community-github">
+                        GitHub Profile (optional)
+                      </Label>
                       <div className="relative">
                         <GitHubIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
@@ -226,7 +238,9 @@ export function JoinCommunitySection() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="community-linkedin">LinkedIn (optional)</Label>
+                      <Label htmlFor="community-linkedin">
+                        LinkedIn (optional)
+                      </Label>
                       <div className="relative">
                         <LinkedInIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
@@ -254,7 +268,12 @@ export function JoinCommunitySection() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full" disabled={loading}>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full"
+                    disabled={loading}
+                  >
                     {loading ? "Joining..." : "Join the Community"}
                   </Button>
                 </form>
@@ -267,9 +286,9 @@ export function JoinCommunitySection() {
               <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent p-6 backdrop-blur-md">
                 <h3 className="text-lg font-semibold">Not a job application</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  This is an open invitation to collaborate, learn, and grow with
-                  a project that aims to improve education technology across
-                  institutions.
+                  This is an open invitation to collaborate, learn, and grow
+                  with a project that aims to improve education technology
+                  across institutions.
                 </p>
               </div>
               <div className="rounded-3xl border border-border/60 bg-card/60 p-6 backdrop-blur-md">

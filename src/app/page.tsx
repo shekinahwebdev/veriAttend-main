@@ -34,9 +34,9 @@ export default function Home() {
       <ChangelogSection />
       <CommunityFeedbackSection />
       <JoinCommunitySection />
-      <BehindVeriAttendSection />
+      {/* <BehindVeriAttendSection /> */}
       <TechStackSection />
-    {/*  <TestimonialsSection /> */}
+      {/*  <TestimonialsSection /> */}
       <FAQSection />
       <ContactSection />
     </>
